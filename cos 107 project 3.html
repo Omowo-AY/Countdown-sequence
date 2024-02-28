@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Birthday Countdown Timer</title>
+  <style>
+    body {
+      background-color: #ffd3d3; /* Light pink background */
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .countdown {
+      display: flex;
+      justify-content: center;
+      margin-top: 50px;
+    }
+
+    .countdown div {
+      margin: 0 10px;
+      padding: 10px;
+      font-size: 48px; /* Larger font size */
+      background-color: #ff7f7f; /* Light red background */
+      color: white;
+      border-radius: 10px;
+    }
+
+    #birthdayMessage {
+      display: none; /* Initially hidden */
+      text-align: center;
+      font-size: 36px;
+      color: #ff6699; /* Pink color */
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <h1 style="text-align: center;">Counting down to my birthday !</h1>
+  <div class="countdown">
+    <div id="days">00</div>
+    <div id="hours">00</div>
+    <div id="minutes">00</div>
+    <div id="seconds">00</div>
+  </div>
+  <div id="birthdayMessage">
+    <p>Happy Birthday!</p>
+    <p id="birthdayQuote"></p>
+  </div>
+  <script>
+    const countdown = document.querySelector('.countdown');
+    const daysElement = document.getElementById('days');
+    const hoursElement = document.getElementById('hours');
+    const minutesElement = document.getElementById('minutes');
+    const secondsElement = document.getElementById('seconds');
+    const birthdayMessage = document.getElementById('birthdayMessage');
+    const birthdayQuoteElement = document.getElementById('birthdayQuote');
+
+    const countdownDate = new Date('2024-10-13').getTime();
+
+    const birthdayQuotes = [
+      "May your birthday be as special as you are!",
+      "Wishing you a day filled with love, joy, and cake!",
+      "Another year older, another reason to celebrate!",
+      "Age is merely the number of years the world has been enjoying you.",
+      "Today is a perfect day to be happy! Happy Birthday!",
+      "You're not getting older, you're getting better! Happy Birthday!"
+    ];
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const difference = countdownDate - now;
+
+      if (difference <= 0) {
+        clearInterval(interval);
+        countdown.style.display = 'none'; // Hide countdown
+        birthdayMessage.style.display = 'block'; // Show birthday message
+        displayRandomQuote();
+        return;
+      }
+
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+      daysElement.textContent = days < 10 ? '0' + days : days;
+      hoursElement.textContent = hours < 10 ? '0' + hours : hours;
+      minutesElement.textContent = minutes < 10 ? '0' + minutes : minutes;
+      secondsElement.textContent = seconds < 10 ? '0' + seconds : seconds;
+    }
+
+    function displayRandomQuote() {
+      const randomIndex = Math.floor(Math.random() * birthdayQuotes.length);
+      const randomQuote = birthdayQuotes[randomIndex];
+      birthdayQuoteElement.textContent = randomQuote;
+    }
+
+    updateCountdown();
+
+    const interval = setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
